@@ -1,4 +1,4 @@
-from post_yandex import setUp
+from post_yandex import Yandex_Post.
 from post_yandex import TestOpenLoginFform
 from post_yandex import EmailSend
 

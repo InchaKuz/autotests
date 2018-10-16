@@ -1,36 +1,44 @@
 import unittest 
-import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import private
 
 
 
-class Yandex_Post(unittest.TestCase):
+class YandexPost(unittest.TestCase):
 	def setUp(self):
-		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver')
+		self.chrome_options = Options()
+		self.chrome_options.add_experimental_option('detach', True)
+		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
+		self.driver.implicitly_wait(10)
 		self.driver.get('https://yandex.ru/')
 
-	def TestOpenLoginFform(self):
-		self.login_form = self.driver.find_element_by_link_text('Почта').click()
-		self.input_login = self.driver.find_element_by_name('login')
-		self.input_login.send_keys('STest777')
-		self.input_password = self.driver.find_element_by_name('passwd')
-		self.input_password.send_keys('Qwery123')
-		self.press_enter = self.driver.find_element_by_xpath("//*[@class='passport-Button']").click()
+	def open_login_form(self):
+		self.driver.find_element_by_link_text('Почта').click()
+		self.driver.find_element_by_name('login').send_keys(private.LOGIN_YA)
+		self.driver.find_element_by_name('passwd').send_keys(private.PASSWORD_YA)
+		self.driver.find_element_by_xpath("//*[@class='passport-Button']").click()
 
-	def EmailSend(self):
-		self.created_mail = self.driver.find_element_by_xpath('//*[@href="#compose"]').click()
-		self.time.sleep(2)
-		self.input_email = self.driver.find_element_by_class_name("mail-Bubbles")
-		self.input_email.send_keys('innes1@ya.ru')
-		self.head_email = self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller")
-		self.head_email.send_keys('бла-бла')
-		self.body_text_email = self.driver.find_element_by_class_name('cke_wysiwyg_div')
-		self.body_text_email.send_keys('бла-бла')
-		self.delivery_email = self.driver.find_element_by_class_name('_nb-large-action-button').click()
+		
+	def click_botton_created_email(self):
+		return self.driver.find_element_by_xpath('//*[@href="#compose"]').click()
+
+
+	def email_send(self):
+		self.click_botton_created_email()
+		self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.MY_EMAIL)
+		self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('бла-бла')
+		self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys('бла-бла')
+		self.driver.find_element_by_class_name('_nb-large-action-button').click()
+
+
+	def test_email_send(self):
+		self.open_login_form()
+		self.email_send()
 
 
 if __name__ == '__main__':
