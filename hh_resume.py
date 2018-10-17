@@ -17,14 +17,22 @@ class HhResume(unittest.TestCase):
 		self.driver.get('https://hh.ru/')
 
 
-	def test_login_form(self):
+	def login_form(self):
 		self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm').click()
 		self.driver.find_element_by_class_name('login-input').send_keys(private.MY_EMAIL)
 		self.driver.find_element_by_xpath("(//*[@class='login-input'])[2]").send_keys(private.PASSWORD_HH)
 		self.driver.find_element_by_name('action').click()
-		#self.driver.find_element_by_class_name('web-push-subscribe_controls').click()
-		self.driver.find_element_by_class_name('HH-Navi-Menu-Item').click()
-		self.driver.find_element_by_xpath('//*[@href="/applicant/resumes"]').click()
+		self.driver.find_element_by_xpath("(/html/body/div[1]/div[2]/div/div/div/div/ul/li[4]/div[1])").click()
+		self.driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div/div/ul/li[4]/div[2]/div/ul/li[3]/a/span[1]').click()
+		self.driver.find_element_by_class_name('b-resumelist-vacancyname').click()
+
+	def test_download_resume(self):
+		self.login_form()
+		self.driver.find_element_by_class_name('HH-Resume-DownloadButton').click()
+		self.driver.find_element_by_class_name('list-params__item_download-adobereader').click()
+
+
+
 
 if __name__ == '__main__':
 	unittest.main()
