@@ -26,11 +26,14 @@ class HhResume(unittest.TestCase):
 		self.driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div/div/ul/li[4]/div[2]/div/ul/li[3]/a/span[1]').click()
 		self.driver.find_element_by_class_name('b-resumelist-vacancyname').click()
 
-	def test_download_resume(self):
+	def download_resume(self):
 		self.login_form()
 		self.driver.find_element_by_class_name('HH-Resume-DownloadButton').click()
 		self.driver.find_element_by_class_name('list-params__item_download-adobereader').click()
 
+	def test_copy_url_resume(self):
+		self.login_form.browser.current_url()
+			
 
 
 
