@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 import private
 
 
+
 class HhResume(unittest.TestCase):
 	def setUp(self):
 		self.chrome_options = Options()
@@ -17,7 +18,7 @@ class HhResume(unittest.TestCase):
 		self.driver.get('https://hh.ru/')
 
 
-	def login_form(self):
+	def login_form_hh(self):
 		self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm').click()
 		self.driver.find_element_by_class_name('login-input').send_keys(private.MY_EMAIL)
 		self.driver.find_element_by_xpath("(//*[@class='login-input'])[2]").send_keys(private.PASSWORD_HH)
@@ -27,14 +28,14 @@ class HhResume(unittest.TestCase):
 		self.driver.find_element_by_class_name('b-resumelist-vacancyname').click()
 
 	def download_resume(self):
-		self.login_form()
+		self.login_form_hh()
 		self.driver.find_element_by_class_name('HH-Resume-DownloadButton').click()
 		self.driver.find_element_by_class_name('list-params__item_download-adobereader').click()
 
-	def test_copy_url_resume(self):
-		self.login_form.browser.current_url()
+	def copy_url_resume(self):
+		self.login_form_hh()
+		print(self.driver.current_url)
 			
-
 
 
 if __name__ == '__main__':
