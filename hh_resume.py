@@ -9,22 +9,21 @@ import private
 
 
 
-class HhResume(unittest.TestCase):
-	def setUp(self):
+class HhResume:
+	def __init__(self):
 		self.chrome_options = Options()
 		self.chrome_options.add_experimental_option('detach', True)
 		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
 		self.driver.implicitly_wait(10)
 		self.driver.get('https://hh.ru/')
 
-
 	def login_form_hh(self):
 		self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm').click()
 		self.driver.find_element_by_class_name('login-input').send_keys(private.MY_EMAIL)
 		self.driver.find_element_by_xpath("(//*[@class='login-input'])[2]").send_keys(private.PASSWORD_HH)
 		self.driver.find_element_by_name('action').click()
-		self.driver.find_element_by_xpath("(/html/body/div[1]/div[2]/div/div/div/div/ul/li[4]/div[1])").click()
-		self.driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div/div/ul/li[4]/div[2]/div/ul/li[3]/a/span[1]').click()
+		self.driver.find_element_by_xpath("//div[text()='Резюме']").click()
+		self.driver.find_element_by_xpath("//a[@class='navi-dropdown-link']//span[text()='Мои резюме']").click()
 		self.driver.find_element_by_class_name('b-resumelist-vacancyname').click()
 
 	def download_resume(self):
@@ -34,7 +33,7 @@ class HhResume(unittest.TestCase):
 
 	def copy_url_resume(self):
 		self.login_form_hh()
-		print(self.driver.current_url)
+		return self.driver.current_url
 			
 
 
