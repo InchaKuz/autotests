@@ -17,8 +17,13 @@ class HhResume:
 		self.driver.implicitly_wait(10)
 		self.driver.get('https://hh.ru/')
 
+	def region_visible_applet(self):  # проверяет наличие элемента на странице(вопрос от регионе)
+		self.element = self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm')
+		if self.element.is_displayed():
+			self.element.click()
+
 	def login_form_hh(self):
-		self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm').click()
+		self.region_visible_applet()
 		self.driver.find_element_by_class_name('login-input').send_keys(private.MY_EMAIL)
 		self.driver.find_element_by_xpath("(//*[@class='login-input'])[2]").send_keys(private.PASSWORD_HH)
 		self.driver.find_element_by_name('action').click()

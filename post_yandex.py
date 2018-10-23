@@ -33,15 +33,16 @@ class YandexPost(unittest.TestCase):
 	def input_theme_email(self):
 		return self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('Резюме')#ввод темы письма
 
-	def button_to_send():
-		return find_element_by_class_name('_nb-large-action-button').click() #нажать кнопку "Отправить"
+	def button_to_send(self):
+		return self.driver.find_element_by_class_name('_nb-large-action-button').click() #нажать кнопку "Отправить"
 
 	def text_email(self): # возвращает ссылку на резюме 
 		hh_link = self.hh_resume.copy_url_resume()
 		return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(hh_link)
 
-	def text_email_by_attach():
+	def download_by_attach(self): # возвращает аттач в письмо
 		hh_download = self.hh_resume.download_resume()
+		return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(hh_download)
 
 	def email_send(self): #написать письмо
 		self.click_botton_created_email()
@@ -50,18 +51,16 @@ class YandexPost(unittest.TestCase):
 		self.text_email()
 		self.button_to_send()
 
-	def email_send_by_attach(self):
+	def email_send_by_attach(self): #написать письмо с аттачем
 		self.click_botton_created_email()
 		self.input_address()
 		self.input_theme_email()
-		#self.click_attach = self.driver.find_element_by_id('cke_9').click() #кнопка прикрепить
-		#self.os.getcwd() + "///home/inna/Кузьмина Инна Сергеевна.pdf"
-		self.file_input = self.driver.find_element_by_id("cke_9")
-		print(self.file_input)
-		self.file_input.send_keys("/home/inna/123.pdf")
-
-
-
+		self.text_email()
+		self.download_by_attach()
+		self.file_input = self.driver.find_element_by_xpath("//*[@name='att']")
+		self.file_input.send_keys("home/inna/123.pdf")
+		self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(private.TEXT_MY_RESUME)
+		self.button_to_send()
 
 	def mail_send(self): #тест залогиниться и отправить письмо
 		self.open_login_form()
@@ -73,7 +72,6 @@ class YandexPost(unittest.TestCase):
 
 	def is_visible(self): 
 		print(self.driver.find_element_by_link_text('Почта').is_displayed()) # проверяет наличие элемента на странице
-
 
 
 if __name__ == '__main__':
