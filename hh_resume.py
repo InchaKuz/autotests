@@ -1,4 +1,5 @@
 import unittest 
+from datetime import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium import webdriver
@@ -9,13 +10,14 @@ import private
 
 
 
-class HhResume:
+class HhResume():
 	def __init__(self):
 		self.chrome_options = Options()
 		self.chrome_options.add_experimental_option('detach', True)
 		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
-		self.driver.implicitly_wait(10)
+		self.driver.implicitly_wait(5)
 		self.driver.get('https://hh.ru/')
+		#self.my_time = time()
 
 	def region_visible_applet(self):  # проверяет наличие элемента на странице(вопрос от регионе)
 		self.element = self.driver.find_element_by_class_name('HH-Navi-RegionDropdown-Confirm')
@@ -35,6 +37,8 @@ class HhResume:
 		self.login_form_hh()
 		self.driver.find_element_by_class_name('HH-Resume-DownloadButton').click()
 		self.driver.find_element_by_class_name('list-params__item_download-adobereader').click()
+		#self.my_time = time.sleep(10)
+
 
 	def copy_url_resume(self):
 		self.login_form_hh()

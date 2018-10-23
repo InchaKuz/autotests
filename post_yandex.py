@@ -1,5 +1,6 @@
 import unittest 
 import os, sys
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
@@ -13,7 +14,7 @@ class YandexPost(unittest.TestCase):
 		self.chrome_options = Options()
 		self.chrome_options.add_experimental_option('detach', True)
 		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
-		self.driver.implicitly_wait(10)
+		self.driver.implicitly_wait(5)
 		self.driver.get('https://yandex.ru/')
 		self.hh_resume = HhResume()
 
@@ -28,7 +29,7 @@ class YandexPost(unittest.TestCase):
 		return self.driver.find_element_by_xpath('//*[@href="#compose"]').click() #кнопка "Написать письмо"
 
 	def input_address(self):
-		return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.MY_EMAIL) #ввод адреса получателя "Кому"
+		return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.EMAIL1) #ввод адреса получателя "Кому"
 
 	def input_theme_email(self):
 		return self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('Резюме')#ввод темы письма
@@ -41,8 +42,8 @@ class YandexPost(unittest.TestCase):
 		return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(hh_link)
 
 	def download_by_attach(self): # возвращает аттач в письмо
-		hh_download = self.hh_resume.download_resume()
-		return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(hh_download)
+		return self.hh_resume.download_resume()
+		#return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(hh_download)
 
 	def email_send(self): #написать письмо
 		self.click_botton_created_email()
@@ -55,10 +56,9 @@ class YandexPost(unittest.TestCase):
 		self.click_botton_created_email()
 		self.input_address()
 		self.input_theme_email()
-		self.text_email()
 		self.download_by_attach()
 		self.file_input = self.driver.find_element_by_xpath("//*[@name='att']")
-		self.file_input.send_keys("home/inna/123.pdf")
+		self.file_input.send_keys("/home/inna/Загрузки/Кузьмина Инна Сергеевна (4).pdf")
 		self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(private.TEXT_MY_RESUME)
 		self.button_to_send()
 
