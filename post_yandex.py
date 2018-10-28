@@ -1,6 +1,7 @@
 import unittest 
-import os, sys
 import time
+import pytest
+import allure
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
@@ -13,12 +14,14 @@ class YandexPost(unittest.TestCase):
 	def setUp(self):
 		self.chrome_options = Options()
 		self.chrome_options.add_experimental_option('detach', True)
-		self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
-		self.driver.implicitly_wait(5)
-		self.driver.get('https://yandex.ru/')
-		self.hh_resume = HhResume()
+		with pytest.allure.step("Launch site"):
+			self.driver = webdriver.Chrome('/home/inna/Project/autotests/chromedriver', options = self.chrome_options)
+			self.driver.implicitly_wait(5)
+		with pytest.allure.step("Verify Title loaded"):
+			self.driver.get('https://yandex.ru/')
+			self.hh_resume = HhResume()
 
-
+	@pytest.allure.step("Launch site")
 	def open_login_form(self):
 		self.driver.find_element_by_link_text('Почта').click()
 		self.driver.find_element_by_name('login').send_keys(private.LOGIN_YA)
@@ -29,7 +32,7 @@ class YandexPost(unittest.TestCase):
 		return self.driver.find_element_by_xpath('//*[@href="#compose"]').click() #кнопка "Написать письмо"
 
 	def input_address(self):
-		return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.EMAIL1) #ввод адреса получателя "Кому"
+		return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.MY_EMAIL) #ввод адреса получателя "Кому"
 
 	def input_theme_email(self):
 		return self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('Резюме')#ввод темы письма
@@ -58,7 +61,7 @@ class YandexPost(unittest.TestCase):
 		self.input_theme_email()
 		self.download_by_attach()
 		self.file_input = self.driver.find_element_by_xpath("//*[@name='att']")
-		self.file_input.send_keys("/home/inna/Загрузки/Кузьмина Инна Сергеевна (4).pdf")
+		self.file_input.send_keys("/home/inna/Загрузки/Кузьмина Инна Сергеевна.pdf")
 		self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(private.TEXT_MY_RESUME)
 		self.button_to_send()
 

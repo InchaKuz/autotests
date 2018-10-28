@@ -1,5 +1,5 @@
 import unittest 
-from datetime import time
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium import webdriver
@@ -37,7 +37,7 @@ class HhResume():
 		self.login_form_hh()
 		self.driver.find_element_by_class_name('HH-Resume-DownloadButton').click()
 		self.driver.find_element_by_class_name('list-params__item_download-adobereader').click()
-		#self.my_time = time.sleep(10)
+		time.sleep(10)
 
 
 	def copy_url_resume(self):
