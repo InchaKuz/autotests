@@ -1,0 +1,1 @@
+exclude = env/*, results/*, allure_results/*, __pycache__/*, chromedriver
