@@ -36,10 +36,10 @@ class YandexPost(unittest.TestCase):
         return self.driver.find_element_by_xpath('//*[@href="#compose"]').click()
 
     def input_address(self):   # ввод адреса получателя "Кому"
-        return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.MY_EMAIL)
+        return self.driver.find_element_by_class_name("mail-Bubbles").send_keys(private.EMAIL1)
 
     def input_theme_email(self):  # ввод темы письма
-        return self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('Резюме')
+        return self.driver.find_element_by_class_name("mail-Compose-Field-Input-Controller").send_keys('Котики')
 
     @pytest.allure.step("Отправить")
     def button_to_send(self):  # нажать кнопку "Отправить"
@@ -57,7 +57,7 @@ class YandexPost(unittest.TestCase):
         return self.driver.find_element_by_class_name('cke_wysiwyg_div').send_keys(pika_link)
 
     def email_send(self):  # написать письмо
-        allure.attach(self.click_botton_created_email(), name='screenshot', attachment_type=AttachmentType.PNG)
+        self.click_botton_created_email()
         self.input_address()
         self.input_theme_email()
         self.text_email()
@@ -65,10 +65,12 @@ class YandexPost(unittest.TestCase):
 
     @pytest.allure.step("Создать письмо")
     def email_send_by_cat_pika(self):
-        allure.attach(self.click_botton_created_email(), name='screenshot', attachment_type=AttachmentType.PNG)
+        self.click_botton_created_email()
+        allure.attach(self.driver.get_screenshot_as_png(), name='screenshot', attachment_type=AttachmentType.PNG)
         self.input_address()
         self.input_theme_email()
         self.copy_url_pika()
+        allure.attach(self.driver.get_screenshot_as_png(), name='screenshot', attachment_type=AttachmentType.PNG)
         self.button_to_send()
 
     def email_send_by_attach(self):  # написать письмо с аттачем
@@ -94,6 +96,7 @@ class YandexPost(unittest.TestCase):
 
     def test_email_pika_cat(self):  # тест залогинеться и отправить пост с Пикабу
         self.open_login_form()
+        allure.attach(self.driver.get_screenshot_as_png(), name='screenshot', attachment_type=AttachmentType.PNG)
         self.email_send_by_cat_pika()
 
 
